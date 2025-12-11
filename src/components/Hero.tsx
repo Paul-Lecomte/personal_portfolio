@@ -72,19 +72,19 @@ const Hero: React.FC = () => {
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-200">
               <div className="space-y-1">
                 <p className="text-xs text-slate-400">Languages</p>
-                <p>Rust, C++, TypeScript, Python</p>
+                <p>Rust, C++, TypeScript, Python, JavaScript, Java</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-slate-400">Web</p>
-                <p>React, Next.js, Node.js</p>
+                <p>React, Next.js, Node.js, ExpressJS, Vite, Vue, React</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-slate-400">Data & Storage</p>
-                <p>PostgreSQL, MongoDB, GTFS</p>
+                <p>PostgreSQL, MongoDB, GTFS, SQL</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-slate-400">DevOps</p>
-                <p>GitHub Actions, Docker, Linux</p>
+                <p>GitHub Actions, Docker, Linux, Vercel</p>
               </div>
             </div>
           </div>
