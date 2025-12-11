@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 
 const Projects: React.FC = () => {
@@ -11,11 +12,11 @@ const Projects: React.FC = () => {
           Featured Projects
         </h2>
         <p className="mt-4 text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-          Selected work in routing, messaging and simulations.
+          Selected work in routing, web and simulations.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
-          A few projects that reflect how I think about systems: clear boundaries, strong
-          correctness guarantees and a focus on making complex behavior understandable.
+          Each project has its own short case study describing the problem, approach, architecture
+          and impact.
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -42,13 +43,13 @@ const Projects: React.FC = () => {
                 <p className="mt-3 text-sm text-slate-300">{project.summary}</p>
               </div>
               <div className="mt-4 pt-2">
-                <a
-                  href={`#case-${project.id}`}
+                <Link
+                  to={`/project/${project.id}`}
                   className="inline-flex items-center text-sm font-medium text-brand-soft hover:text-brand-primary"
                 >
-                  Read case study
+                  View case study
                   <span className="ml-1 text-xs">→</span>
-                </a>
+                </Link>
               </div>
             </article>
           ))}
@@ -59,4 +60,3 @@ const Projects: React.FC = () => {
 };
 
 export default Projects;
-
