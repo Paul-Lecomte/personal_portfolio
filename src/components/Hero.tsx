@@ -1,5 +1,36 @@
 import type React from 'react';
 
+const tech = {
+  Languages: [
+    'HTML',
+    'CSS',
+    'JavaScript',
+    'TypeScript',
+    'Sass',
+    'Less',
+    'Node.js',
+    'PHP',
+    'Python',
+    'Rust',
+    'C++',
+  ],
+  Frameworks: [
+    'Next.js',
+    'React',
+    'Vue.js',
+    'Nuxt.js',
+    'Tailwind CSS',
+    'Vite',
+    'Express.js',
+    'Babylon.js',
+    'Lightweight Charts',
+    'Symfony',
+  ],
+  Databases: ['MongoDB', 'MySQL', 'PostgreSQL', 'SQLite', 'Redis', 'Neo4j'],
+  Tools: ['Figma', 'Git', 'VSCode', 'JetBrains', 'Bulma', 'Vercel', 'GraphQL', 'AWS'],
+  APIs: ['OpenAI', 'Gemini', 'SBB CFF FFS', 'Mapbox', 'Google Maps API', 'REST', 'GraphQL API'],
+};
+
 const Hero: React.FC = () => {
   return (
     <section
@@ -64,28 +95,29 @@ const Hero: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-8 w-full max-w-md md:mt-0">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-slate-950/70 backdrop-blur">
+        <div className="mt-8 w-full md:mt-0 md:max-w-lg lg:max-w-xl">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-slate-950/70 backdrop-blur overflow-hidden">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
               Tech snapshot
             </p>
-            <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-200">
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400">Languages</p>
-                <p>Rust, C++, TypeScript, Python, JavaScript, Java</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400">Web</p>
-                <p>React, Next.js, Node.js, ExpressJS, Vite, Vue, React</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400">Data & Storage</p>
-                <p>PostgreSQL, MongoDB, GTFS, SQL</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-slate-400">DevOps</p>
-                <p>GitHub Actions, Docker, Linux, Vercel</p>
-              </div>
+            <div className="mt-4 grid gap-6 sm:grid-cols-2">
+              {Object.entries(tech).map(([category, items]) => (
+                <div key={category} className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
+                    {category}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((label) => (
+                      <span
+                        key={label}
+                        className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-slate-200 shadow-sm transition hover:border-brand-soft hover:text-brand-soft"
+                      >
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
