@@ -21,131 +21,182 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: 'swiss-pb-map',
-    title: 'Swiss PB Map — Rust Backend Rewrite',
+    title: 'SwissTransitMap — Swiss Public Transport Visualization & Routing',
     tagline:
-      'Rewriting a public transport routing backend in Rust for clarity, correctness and future performance gains.',
-    tech: ['Rust', 'MongoDB', 'Dijkstra', 'REST API'],
+      'An interactive Next.js and Leaflet-based map for Swiss public transport, backed by a Node.js/Express API over GTFS and MongoDB.',
+    tech: [
+      'Next.js',
+      'React',
+      'Leaflet',
+      'Node.js',
+      'Express.js',
+      'TypeScript',
+      'MongoDB',
+      'GTFS',
+    ],
     summary:
-      'Rebuilt the backend of a public transport map to compute fastest paths over Swiss timetable data, improving reliability and architecture.',
+      'SwissTransitMap is a full‑stack web app that visualizes the Swiss public transport network using GTFS data. It combines a modern Next.js + React + Leaflet frontend with a Node.js/Express backend and MongoDB to provide fast stop search, route exploration and basic fastest-path queries.',
     order: 1,
     caseStudy: {
       problem: {
         title: 'Problem',
         content: [
-          'The existing backend powering a Swiss public transport map had grown hard to evolve. Routing logic was spread across multiple components and it was difficult to reason about performance and correctness.',
-          'I wanted a backend where shortest-path computation, data access and API boundaries were all clearly defined — and that could scale with more complex routing features.',
+          'Swiss public transport provides rich GTFS data, but it is not directly user friendly: you cannot just “see” the network or quickly explore routes and timetables on an interactive map.',
+          'I wanted to build a modern web app that turns raw GTFS files into something visual and usable: an interactive map of the Swiss network with stop search, route inspection and basic journey planning.',
         ],
       },
       approach: {
         title: 'Approach',
         content: [
-          'Reimplemented the core backend in Rust, focusing on type safety, ownership and explicit error handling.',
-          'Isolated the shortest-path logic (Dijkstra) from the HTTP layer and the database to enable focused testing and iteration.',
-          'Defined clear domain models for stops, connections and timetables so correctness becomes easier to reason about.',
+          'Designed a full‑stack architecture with a Next.js/React frontend for the UI and a Node.js/Express backend for GTFS ingestion, data processing and API endpoints.',
+          'Used MongoDB as the primary store for GTFS tables (stops, routes, trips, stop times, transfers, etc.) and for preprocessed views that are efficient to query from the map.',
+          'Integrated React‑Leaflet to render the network on top of map tiles and to provide smooth panning/zooming interactions, while fetching data from the backend via typed services.',
         ],
       },
       architecture: {
         title: 'Architecture',
         content: [
-          'API layer in Rust exposing REST endpoints (e.g. /routes) to compute fastest paths between stops.',
-          'Routing engine module implementing a Dijkstra-based algorithm over a graph derived from timetable data.',
-          'Data layer backed by MongoDB for storing stops, trips and connections, with a clean interface for loading graph structures.',
-          'Configuration and observability hooks for database connections, timeouts and future logging/metrics.',
+          'A backend folder containing an Express.js API that exposes endpoints for stops (search and bounding-box queries), routes, trips, basic real-time data and a fastest-path endpoint.',
+          'A set of Mongoose models mapping GTFS entities (stops, routes, trips, stop times, transfers, etc.) to MongoDB collections, plus utility scripts to import and preprocess GTFS feeds.',
+          'Frontend built with Next.js (App Router), React, TypeScript, MUI and React‑Leaflet, structured around map components, route info panels and service modules for calling the backend.',
+          'Support for GTFS enrichment using pfaedle and Docker, with scripts to generate enhanced GTFS data (including shapes) before ingestion.',
         ],
       },
       impact: {
         title: 'Impact & Learnings',
         content: [
-          'Clear separation of concerns between API, routing logic and data access, making future features easier to add.',
-          'Safer codebase thanks to Rust’s type system and ownership model, reducing runtime errors.',
-          'Stronger understanding of mapping GTFS-like data into graphs suitable for shortest-path algorithms.',
+          'Built an end‑to‑end system that goes from raw Swiss GTFS feeds to an interactive map and routing experience, touching data ingestion, APIs and frontend UX.',
+          'Gained experience modeling GTFS data in MongoDB and exposing it via a clean, focused REST API for frontend consumption.',
+          'Practiced structuring a Next.js + Node.js project with clear boundaries between data processing, API routes and interactive map components.',
         ],
       },
     },
   },
   {
-    id: 'gtfs-backend',
-    title: 'GTFS Routing Backend — Fastest-Path over Public Transit Data',
+    id: 'arma-reforger-artillery-calculator',
+    title: 'Arma Reforger Artillery Calculator',
     tagline:
-      'Building a backend that turns GTFS feeds into usable, fastest routes between stops.',
-    tech: ['Node.js', 'TypeScript', 'GTFS', 'Shortest-path algorithms'],
+      'A ballistics helper tool for Arma Reforger that turns map positions and weapon parameters into precise firing solutions.',
+    tech: ['C++', 'Game scripting', 'Simulation', 'Ballistics'],
     summary:
-      'Backend service that ingests GTFS data and computes fastest routes between stops, with a clean separation between ingestion, graph building and routing.',
+      'A calculator for Arma Reforger artillery that computes firing angles and parameters based on positions and weapon characteristics, packaging the logic into reusable, game-friendly components.',
     order: 2,
     caseStudy: {
       problem: {
         title: 'Problem',
         content: [
-          'GTFS feeds describe public transport schedules, but they don’t directly tell you the fastest way to get from A to B at a given time.',
-          'The goal was to design a backend that ingests GTFS data, structures it and exposes an API to compute fastest routes while staying understandable and maintainable.',
+          'In Arma Reforger, getting accurate artillery shots often requires manual calculations or guesswork, especially when taking distance, elevation and weapon-specific parameters into account.',
+          'The goal was to build a small, reliable calculator that can turn map positions and weapon data into firing solutions that are fast to use during gameplay.',
         ],
       },
       approach: {
         title: 'Approach',
         content: [
-          'Built a Node.js backend that consumes GTFS files (stops, trips, stop_times and more).',
-          'Transformed GTFS data into a graph representation tuned for shortest-path algorithms.',
-          'Implemented a shortest-path algorithm (such as Dijkstra or a time-dependent variant) tailored to public transit constraints.',
+          'Implemented the core ballistics and trigonometry logic in a way that can be reused by game scripts, focusing on clear interfaces and predictable behavior.',
+          'Separated pure mathematical computations from any game-specific glue code so the core calculations can be tested and reasoned about in isolation.',
+          'Documented the assumptions about weapon parameters, gravity and map scale so that the calculator remains understandable and adjustable.',
         ],
       },
       architecture: {
         title: 'Architecture',
         content: [
-          'Ingestion pipeline that parses GTFS text files, normalizes data and builds indexed structures.',
-          'Graph and algorithm layer that represents trips as edges and runs a fastest-path computation.',
-          'API layer exposing endpoints like /route?from=...&to=...&time=..., returning a structured route with legs and timing.',
-          'Error handling and validation to deal with malformed requests and missing data gracefully.',
+          'Core computation module taking origin, target and weapon characteristics and returning firing elevations or settings.',
+          'Thin integration layer that exposes the calculator to the Arma Reforger scripting environment or UI.',
+          'Configuration points for weapon presets, allowing different artillery pieces to reuse the same underlying logic.',
         ],
       },
       impact: {
         title: 'Impact & Learnings',
         content: [
-          'Deeper understanding of GTFS and how to convert it into routing graphs.',
-          'Practical experience joining algorithms with real-world, messy data in a backend service.',
-          'Clear picture of trade-offs between speed, memory usage and implementation complexity.',
+          'Improved appreciation for separating pure simulation/math code from game integration to keep complexity under control.',
+          'Hands-on practice implementing and testing small physics-inspired calculations in a game context.',
+          'Learned how to design APIs for tools that must be quick to use under pressure (in-game) but still technically sound.',
         ],
       },
     },
   },
   {
-    id: 'spleet-messaging',
-    title: 'Spleet — Messaging Backend & Product Roadmap',
+    id: 'profile-roasting',
+    title: 'Profile Roasting — Web Tool for Playful Feedback',
     tagline:
-      'Designing the backend and roadmap for a messaging product focused on reliability and evolvability.',
-    tech: ['TypeScript', 'Node.js', 'REST APIs', 'Product roadmap'],
+      'A small web app that analyzes and playfully “roasts” user profiles, experimenting with UI, APIs and content generation.',
+    tech: ['TypeScript', 'React', 'Node.js', 'REST API'],
     summary:
-      'Designed and implemented core backend concepts for a messaging app, from data models and APIs to a concrete roadmap for evolving features.',
+      'A full‑stack experiment that takes user profile data, runs it through a backend, and returns structured “roasts” and feedback, focusing on UI polish and clear API contracts.',
     order: 3,
     caseStudy: {
       problem: {
         title: 'Problem',
         content: [
-          'Early prototypes of Spleet, a focused messaging app, lacked a clear backend architecture and roadmap.',
-          'The challenge was to design data models and APIs that support core messaging features while staying simple enough to iterate quickly.',
+          'I wanted a fun project to practice building a small full‑stack web application end to end: UI, backend API and data flow.',
+          'The idea was to “roast” profiles in a light way, which requires turning loosely structured input into consistent, readable output.',
         ],
       },
       approach: {
         title: 'Approach',
         content: [
-          'Defined core entities such as users, conversations, messages and delivery states.',
-          'Designed a REST/JSON API for sending and retrieving messages, with attention to message ordering and consistency.',
-          'Structured a product roadmap that moves from an MVP (1:1 chats, basic history) to features like group chats and read receipts.',
+          'Built a React-based frontend where users can paste profile information and receive structured roast/feedback messages.',
+          'Implemented a backend API in Node.js/TypeScript that accepts profile data, applies transformation and formatting rules, and returns a normalized response.',
+          'Focused on keeping the request/response contract explicit so that the frontend and backend remain loosely coupled and easy to iterate on.',
         ],
       },
       architecture: {
         title: 'Architecture',
         content: [
-          'Backend service in TypeScript/Node.js handling authentication (if present), message creation and retrieval.',
-          'Data models for users, conversations and messages that separate business logic from persistence.',
-          'API endpoints for creating conversations, sending messages and listing histories with clear contracts.',
+          'React frontend responsible for the UI, form handling and displaying roast results.',
+          'Node.js/TypeScript backend exposing a small REST API to process profile data and generate roast content.',
+          'Shared types or conventions between frontend and backend to keep payloads predictable.',
         ],
       },
       impact: {
         title: 'Impact & Learnings',
         content: [
-          'Hands-on experience turning a product idea into a concrete roadmap and backend structure.',
-          'Practice designing clean data models and APIs for a near real-time application.',
-          'Better intuition for trade-offs between features, complexity and reliability in an early-stage product.',
+          'Gained experience delivering a full‑stack feature from UX to API design and implementation.',
+          'Practiced thinking about error states and validation for a playful but user-facing tool.',
+          'Strengthened skills around structuring React components and state for small, focused apps.',
+        ],
+      },
+    },
+  },
+  {
+    id: 'personal-portfolio',
+    title: 'Personal Portfolio — React, Vite & Tailwind',
+    tagline:
+      'A minimal, content-focused portfolio built with React, Vite and Tailwind CSS to showcase backend and systems projects.',
+    tech: ['TypeScript', 'React', 'Vite', 'Tailwind CSS'],
+    summary:
+      'The site you are reading: a single-page React application that presents my projects as concise case studies, with a focus on clarity, hierarchy and modern UI patterns.',
+    order: 4,
+    caseStudy: {
+      problem: {
+        title: 'Problem',
+        content: [
+          'I needed a portfolio that felt aligned with how I work as an engineer: focused on backend and systems work, with project descriptions that go beyond just screenshots.',
+          'Existing templates often emphasized visuals over architecture and algorithms, so I chose to build a simple site that highlights problem–approach–impact for each project.',
+        ],
+      },
+      approach: {
+        title: 'Approach',
+        content: [
+          'Built a single-page React application using Vite for fast iteration and Tailwind CSS for utility-first styling.',
+          'Centralized all project information in a typed data file so the UI stays simple and easy to maintain as projects evolve.',
+          'Designed sections (hero, about, projects, case studies, resume, contact) to answer the key questions recruiters and engineers actually have.',
+        ],
+      },
+      architecture: {
+        title: 'Architecture',
+        content: [
+          'React + Vite frontend with components for each portfolio section (Hero, About, Projects, CaseStudies, Resume, Contact).',
+          'A small TypeScript data layer (`src/data/projects.ts`) that defines projects and case studies as structured data.',
+          'Tailwind CSS configuration for a dark, minimal aesthetic with a focus on typography and content hierarchy.',
+        ],
+      },
+      impact: {
+        title: 'Impact & Learnings',
+        content: [
+          'Created a portfolio that feels closer to a set of engineering case studies than a visual gallery, better matching my profile.',
+          'Reinforced patterns for structuring small React apps with a clear separation between data and presentation.',
+          'Improved my ability to write concise, technical copy for projects with an emphasis on impact and trade-offs.',
         ],
       },
     },
@@ -156,41 +207,40 @@ export const projects: Project[] = [
     tagline: 'Exploring simulation design and performance in modern C++.',
     tech: ['C++', 'STL', 'Simulation'],
     summary:
-      'Implemented Conway’s Game of Life in modern C++ with a clean separation between simulation logic and rendering, and an efficient grid representation.',
-    order: 4,
+      'A modern C++ implementation of Conway’s Game of Life with a clear separation between simulation logic and rendering, and an efficient grid representation.',
+    order: 5,
     caseStudy: {
       problem: {
         title: 'Problem',
         content: [
-          'Conway’s Game of Life is a classic cellular automaton and a good playground for exploring simulation design.',
-          'The goal was to build it in modern C++ with clear abstractions and an efficient grid representation that can handle larger boards.',
+          'Conway’s Game of Life is a classic cellular automaton and a good playground for exploring simulation design in C++.',
+          'The goal was to build it with clear abstractions and an efficient grid representation that can handle larger boards while keeping the code understandable.',
         ],
       },
       approach: {
         title: 'Approach',
         content: [
-          'Implemented the core rules in a simulation engine independent of any UI or rendering.',
-          'Represented the grid using standard C++ containers to keep memory layout straightforward and iteration fast.',
-          'Encapsulated neighbor counting and state updates to keep the logic testable and easy to extend.',
+          'Implemented the core rules in a simulation engine independent of any UI or rendering layer.',
+          'Used standard C++ containers for the grid to keep memory layout straightforward and iteration fast.',
+          'Encapsulated neighbor counting and state updates in dedicated functions to keep the logic testable and easy to extend.',
         ],
       },
       architecture: {
         title: 'Architecture',
         content: [
-          'Simulation core handling the 2D grid, step function and utility operations.',
-          'Optional rendering layer (console or simple GUI) built on top of the simulation core.',
-          'Simple build setup and clear organization of headers and implementation files.',
+          'Simulation core handling the 2D grid, step function and utility operations such as initializing patterns.',
+          'Optional rendering layer (console or simple GUI) built on top of the simulation core to visualize the evolution of the grid.',
+          'Simple build setup and clear organization of headers and implementation files for maintainability.',
         ],
       },
       impact: {
         title: 'Impact & Learnings',
         content: [
-          'Practice writing clean, modular C++ with clear boundaries between logic and presentation.',
-          'Experience reasoning about performance in iterative grid computations.',
-          'Improved skills in testing and verifying correctness of simulations.',
+          'Practiced writing clean, modular C++ with strict separation between logic and presentation.',
+          'Gained experience reasoning about performance in iterative grid computations and cache behavior.',
+          'Improved skills in testing and verifying correctness of simulations using known patterns and oscillators.',
         ],
       },
     },
   },
 ];
-
