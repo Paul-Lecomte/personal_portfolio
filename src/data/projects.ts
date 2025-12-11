@@ -79,7 +79,7 @@ export const projects: Project[] = [
     title: 'Arma Reforger Artillery Calculator',
     tagline:
       'A ballistics helper tool for Arma Reforger that turns map positions and weapon parameters into precise firing solutions.',
-    tech: ['C++', 'Game scripting', 'Simulation', 'Ballistics'],
+    tech: ['JavaScript', 'Game scripting', 'Simulation', 'Ballistics'],
     summary:
       'A calculator for Arma Reforger artillery that computes firing angles and parameters based on positions and weapon characteristics, packaging the logic into reusable, game-friendly components.',
     order: 2,
