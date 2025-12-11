@@ -42,7 +42,7 @@ const Projects: React.FC = () => {
                 </div>
                 <p className="mt-3 text-sm text-slate-300">{project.summary}</p>
               </div>
-              <div className="mt-4 pt-2">
+              <div className="mt-4 flex items-center justify-between pt-2">
                 <Link
                   to={`/project/${project.id}`}
                   className="inline-flex items-center text-sm font-medium text-brand-soft hover:text-brand-primary"
@@ -50,6 +50,17 @@ const Projects: React.FC = () => {
                   View case study
                   <span className="ml-1 text-xs">→</span>
                 </Link>
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center text-xs text-slate-400 hover:text-slate-200"
+                >
+                  GitHub
+                  <span className="ml-1" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
               </div>
             </article>
           ))}

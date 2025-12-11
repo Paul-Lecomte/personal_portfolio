@@ -10,6 +10,7 @@ export type Project = {
   tech: string[];
   summary: string;
   order: number;
+  githubUrl: string; // lien vers le repo GitHub correspondant
   caseStudy: {
     problem: CaseStudySection;
     approach: CaseStudySection;
@@ -37,6 +38,7 @@ export const projects: Project[] = [
     summary:
       'SwissTransitMap is a full‑stack web app that visualizes the Swiss public transport network using GTFS data. It combines a modern Next.js + React + Leaflet frontend with a Node.js/Express backend and MongoDB to provide fast stop search, route exploration and basic fastest-path queries.',
     order: 1,
+    githubUrl: 'https://github.com/Paul-Lecomte/swiss-pb-map',
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -81,6 +83,7 @@ export const projects: Project[] = [
     summary:
       'A calculator for Arma Reforger artillery that computes firing angles and parameters based on positions and weapon characteristics, packaging the logic into reusable, game-friendly components.',
     order: 2,
+    githubUrl: 'https://github.com/Paul-Lecomte/Arma-Reforger-Artillery-Calculator',
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -124,6 +127,7 @@ export const projects: Project[] = [
     summary:
       'A full‑stack experiment that takes user profile data, runs it through a backend, and returns structured “roasts” and feedback, focusing on UI polish and clear API contracts.',
     order: 3,
+    githubUrl: 'https://github.com/Paul-Lecomte/profile_roasting',
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -167,6 +171,7 @@ export const projects: Project[] = [
     summary:
       'The site you are reading: a single-page React application that presents my projects as concise case studies, with a focus on clarity, hierarchy and modern UI patterns.',
     order: 4,
+    githubUrl: 'https://github.com/Paul-Lecomte/portfolio',
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -209,6 +214,7 @@ export const projects: Project[] = [
     summary:
       'A modern C++ implementation of Conway’s Game of Life with a clear separation between simulation logic and rendering, and an efficient grid representation.',
     order: 5,
+    githubUrl: 'https://github.com/Paul-Lecomte/conway_game_of_life',
     caseStudy: {
       problem: {
         title: 'Problem',

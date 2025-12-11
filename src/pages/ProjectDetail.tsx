@@ -26,12 +26,25 @@ const ProjectDetail: React.FC = () => {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <Link
-          to="/?section=projects#projects"
-          className="inline-flex items-center text-xs font-medium text-slate-400 hover:text-brand-soft"
-        >
-          ← Back to portfolio
-        </Link>
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            to="/?section=projects#projects"
+            className="inline-flex items-center text-xs font-medium text-slate-400 hover:text-brand-soft"
+          >
+            ← Back to portfolio
+          </Link>
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center text-xs font-medium text-slate-300 hover:text-slate-50"
+          >
+            View on GitHub
+            <span className="ml-1" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </div>
 
         <header className="mt-6 space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-soft">
