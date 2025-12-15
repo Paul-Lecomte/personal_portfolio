@@ -6,7 +6,7 @@ const Projects: React.FC = () => {
   const ordered = [...projects].sort((a, b) => a.order - b.order);
 
   return (
-    <section id="projects" className="border-t border-slate-800 bg-slate-950 py-16">
+    <section id="projects" className="border-t border-slate-800 bg-slate-950/80 py-16">
       <div className="mx-auto max-w-5xl px-4">
         <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-soft">
           Featured Projects

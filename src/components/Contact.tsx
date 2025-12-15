@@ -2,7 +2,7 @@ import type React from 'react';
 
 const Contact: React.FC = () => {
   return (
-    <section id="contact" className="border-t border-slate-800 bg-slate-950 py-16">
+    <section id="contact" className="border-t border-slate-800 bg-slate-950/80 py-16">
       <div className="mx-auto max-w-4xl px-4">
         <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-soft">
           Contact

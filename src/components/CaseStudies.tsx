@@ -5,7 +5,7 @@ const CaseStudies: React.FC = () => {
   const ordered = [...projects].sort((a, b) => a.order - b.order);
 
   return (
-    <section id="case-studies" className="border-t border-slate-800 bg-slate-950 py-16">
+    <section id="case-studies" className="border-t border-slate-800 bg-slate-950/80 py-16">
       <div className="mx-auto max-w-4xl px-4">
         <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-soft">
           Case Studies
@@ -62,4 +62,3 @@ const CaseStudies: React.FC = () => {
 };
 
 export default CaseStudies;
-

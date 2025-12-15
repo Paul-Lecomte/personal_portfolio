@@ -9,7 +9,7 @@ const ProjectDetail: React.FC = () => {
 
   if (!project) {
     return (
-      <main className="min-h-screen bg-slate-950 text-slate-100">
+      <main className="min-h-screen bg-slate-950/80 text-slate-100">
         <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-start justify-center px-4">
           <p className="text-sm text-slate-400">Project not found.</p>
           <Link
@@ -24,7 +24,7 @@ const ProjectDetail: React.FC = () => {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-slate-950/80 text-slate-100">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <div className="flex items-center justify-between gap-4">
           <Link

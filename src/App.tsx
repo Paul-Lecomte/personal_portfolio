@@ -6,10 +6,11 @@ import Projects from './components/Projects';
 import Resume from './components/Resume';
 import Contact from './components/Contact';
 import ProjectDetail from './pages/ProjectDetail';
+import BackgroundCanvas from './components/BackgroundCanvas';
 
 const MainPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen text-slate-100 relative z-10">
       <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="text-sm font-semibold text-slate-100">
@@ -46,6 +47,7 @@ const MainPage: React.FC = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <BackgroundCanvas />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/project/:id" element={<ProjectDetail />} />
