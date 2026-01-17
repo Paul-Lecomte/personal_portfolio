@@ -7,9 +7,43 @@ const BackgroundCanvas: React.FC = () => {
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        let ctx: CanvasRenderingContext2D | null = null;
+        try {
+          ctx = canvas.getContext('2d');
+        } catch {
+          // running in a non-canvas env (tests)
+          return;
+        }
+        if (ctx) {
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+          const dpr = Math.max(1, window.devicePixelRatio || 1);
+          canvas.width = Math.round(width * dpr);
+          canvas.height = Math.round(height * dpr);
+          // @ts-expect-error in tests may not exist
+          ctx.setTransform?.(dpr, 0, 0, dpr, 0, 0);
+          const grad = ctx.createLinearGradient(0, 0, 0, height);
+          grad.addColorStop(0, 'rgba(10,12,16,0.7)');
+          grad.addColorStop(1, 'rgba(8,10,12,0.9)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+      return;
+    }
+
     const canvas = canvasRef.current!;
-    // assert non-null so TypeScript knows ctx is available in nested functions
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    let ctx: CanvasRenderingContext2D | null = null;
+    try {
+      ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
+    } catch {
+      // env without canvas (tests) -> bail out
+      return;
+    }
     if (!ctx) return;
 
     let width = 0;
@@ -31,7 +65,8 @@ const BackgroundCanvas: React.FC = () => {
       height = window.innerHeight || canvas.clientHeight || 0;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // @ts-expect-error in tests may not exist
+      ctx.setTransform?.(dpr, 0, 0, dpr, 0, 0);
     }
 
     function initParticles() {

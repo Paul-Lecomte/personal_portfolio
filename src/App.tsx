@@ -5,18 +5,29 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Resume from './components/Resume';
 import Contact from './components/Contact';
-import ProjectDetail from './pages/ProjectDetail';
-import BackgroundCanvas from './components/BackgroundCanvas';
+import { Suspense, lazy } from 'react';
+import { SeoHelmet } from './seo/helmet';
+import { personJsonLd, webSiteJsonLd } from './seo/helmet';
+
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const BackgroundCanvas = lazy(() => import('./components/BackgroundCanvas'));
 
 const MainPage: React.FC = () => {
   return (
     <div className="min-h-screen text-slate-100 relative z-10">
-      <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-slate-900 focus:px-3 focus:py-2 focus:text-slate-100 focus:outline-none"
+      >
+        Aller au contenu principal
+      </a>
+
+      <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/80 backdrop-blur" role="banner">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="text-sm font-semibold text-slate-100">
             Paul Lecomte
           </Link>
-          <nav className="hidden gap-6 text-xs font-medium text-slate-300 sm:flex">
+          <nav className="hidden gap-6 text-xs font-medium text-slate-300 sm:flex" aria-label="Navigation principale">
             <a href="#about" className="hover:text-brand-soft">
               About
             </a>
@@ -33,13 +44,26 @@ const MainPage: React.FC = () => {
         </div>
       </header>
 
-      <main>
+      <main id="main">
+        <SeoHelmet
+          title="Paul Lecomte — Backend & Full‑Stack Engineer"
+          description="Backend & full‑stack projects in Rust, C++ and TypeScript. Case studies with problem → approach → impact."
+          path="/"
+          image="/og-image.svg"
+          jsonLd={[personJsonLd(), webSiteJsonLd()]}
+        />
         <Hero />
         <About />
         <Projects />
         <Resume />
         <Contact />
       </main>
+
+      <footer className="border-t border-slate-800 bg-slate-950/80 py-8" role="contentinfo">
+        <div className="mx-auto max-w-6xl px-4 text-xs text-slate-500">
+          © {new Date().getFullYear()} Paul Lecomte
+        </div>
+      </footer>
     </div>
   );
 };
@@ -47,10 +71,19 @@ const MainPage: React.FC = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <BackgroundCanvas />
+      <Suspense fallback={null}>
+        <BackgroundCanvas />
+      </Suspense>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/project/:id" element={<ProjectDetail />} />
+        <Route
+          path="/project/:id"
+          element={
+            <Suspense fallback={<div className="p-6 text-slate-300">Loading…</div>}>
+              <ProjectDetail />
+            </Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

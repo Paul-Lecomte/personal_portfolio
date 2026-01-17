@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { SeoHelmet, breadcrumbForProject, softwareSourceCode } from '../seo/helmet';
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,6 +12,7 @@ const ProjectDetail: React.FC = () => {
     return (
       <main className="min-h-screen bg-slate-950/80 text-slate-100">
         <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-start justify-center px-4">
+          <SeoHelmet title="Project not found — Paul Lecomte" description="The requested project could not be found." noindex path={`/project/${id ?? ''}`} />
           <p className="text-sm text-slate-400">Project not found.</p>
           <Link
             to="/?section=projects#projects"
@@ -23,8 +25,16 @@ const ProjectDetail: React.FC = () => {
     );
   }
 
+  const desc = project.summary || project.tagline;
+
   return (
     <main className="min-h-screen bg-slate-950/80 text-slate-100">
+      <SeoHelmet
+        title={`${project.title} — Case Study — Paul Lecomte`}
+        description={desc}
+        path={`/project/${project.id}`}
+        jsonLd={[breadcrumbForProject(project.id, project.title), softwareSourceCode(project)]}
+      />
       <div className="mx-auto max-w-4xl px-4 py-8">
         <div className="flex items-center justify-between gap-4">
           <Link
@@ -38,6 +48,7 @@ const ProjectDetail: React.FC = () => {
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center text-xs font-medium text-slate-300 hover:text-slate-50"
+            aria-label={`Open GitHub repository for ${project.title} in a new tab`}
           >
             View on GitHub
             <span className="ml-1" aria-hidden="true">

@@ -1,4 +1,5 @@
 import type React from 'react';
+import { track } from '../utils/analytics';
 
 const Contact: React.FC = () => {
   return (
@@ -25,6 +26,8 @@ const Contact: React.FC = () => {
               <a
                 href="mailto:lecomtepaulvd@gmail.com"
                 className="inline-flex items-center gap-2 text-brand-soft hover:text-brand-primary"
+                aria-label="Send me an email"
+                onClick={() => track('click_contact', { method: 'email' })}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -44,6 +47,7 @@ const Contact: React.FC = () => {
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-brand-soft hover:text-brand-primary"
+                aria-label="Open my GitHub profile in a new tab"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +67,7 @@ const Contact: React.FC = () => {
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-brand-soft hover:text-brand-primary"
+                aria-label="Open my LinkedIn profile in a new tab"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { track } from '../utils/analytics';
 
 const Projects: React.FC = () => {
   const ordered = [...projects].sort((a, b) => a.order - b.order);
@@ -46,6 +47,8 @@ const Projects: React.FC = () => {
                 <Link
                   to={`/project/${project.id}`}
                   className="inline-flex items-center text-sm font-medium text-brand-soft hover:text-brand-primary"
+                  aria-label={`View case study for ${project.title}`}
+                  onClick={() => track('view_project', { id: project.id, title: project.title })}
                 >
                   View case study
                   <span className="ml-1 text-xs">→</span>
@@ -55,6 +58,7 @@ const Projects: React.FC = () => {
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center text-xs text-slate-400 hover:text-slate-200"
+                  aria-label={`Open ${project.title} on GitHub in a new tab`}
                 >
                   GitHub
                   <span className="ml-1" aria-hidden="true">

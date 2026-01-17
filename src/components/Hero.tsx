@@ -1,4 +1,5 @@
 import type React from 'react';
+import { track } from '../utils/analytics';
 
 const tech = {
   Languages: [
@@ -46,12 +47,12 @@ const Hero: React.FC = () => {
             Paul Lecomte
           </h1>
           <p className="text-lg text-slate-300 sm:text-xl">
-            Final-year Computer Science student building reliable backends and web apps in Rust,
-            C++, and TypeScript.
+            I build reliable backends and web apps in Rust, C++, and TypeScript — with a focus on
+            performance and clear architecture.
           </p>
           <p className="text-sm text-slate-400">
-            I enjoy working across the stack — from routing engines over GTFS data and messaging
-            backends to React frontends and small DevOps setups with Docker and GitHub Actions.
+            Recent work includes GTFS routing, interactive mapping, and simulation tools. Case
+            studies highlight problem → approach → impact.
           </p>
 
           <div className="flex flex-wrap gap-2 pt-2">
@@ -76,22 +77,31 @@ const Hero: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <a
-              href="#projects"
+              href="mailto:lecomtepaulvd@gmail.com?subject=Hiring%20inquiry%20—%20Paul%20Lecomte"
               className="inline-flex items-center justify-center rounded-full bg-brand-primary px-5 py-2.5 text-sm font-medium text-slate-50 shadow-lg shadow-brand-primary/40 transition hover:bg-brand-soft"
+              aria-label="Hire me via email"
             >
-              View Projects
+              Hire me
             </a>
             <a
-              href="#resume"
+              href="/Paul-Lecomte-CV.pdf"
+              download
+              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-soft hover:text-brand-soft"
+              aria-label="Download my resume as PDF"
+              onClick={() => track('download_cv')}
+            >
+              Download my resume
+            </a>
+            <a
+              href="#projects"
               className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-soft hover:text-brand-soft"
             >
-              View Resume
+              View Projects
             </a>
           </div>
 
           <p className="pt-2 text-xs text-slate-500">
-            Currently looking for software engineering internships and graduate roles in backend and
-            full‑stack engineering.
+            Open to internships and new grad roles in backend and full‑stack engineering.
           </p>
         </div>
 
