@@ -10,7 +10,7 @@ const ProjectDetail: React.FC = () => {
 
   if (!project) {
     return (
-      <main className="min-h-screen bg-slate-950/80 text-slate-100">
+      <main className="min-h-screen bg-slate-950/80 text-slate-100 relative z-10">
         <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-start justify-center px-4">
           <SeoHelmet title="Project not found — Paul Lecomte" description="The requested project could not be found." noindex path={`/project/${id ?? ''}`} />
           <p className="text-sm text-slate-400">Project not found.</p>
@@ -28,7 +28,7 @@ const ProjectDetail: React.FC = () => {
   const desc = project.summary || project.tagline;
 
   return (
-    <main className="min-h-screen bg-slate-950/80 text-slate-100">
+    <main className="min-h-screen bg-slate-950/80 text-slate-100 relative z-10">
       <SeoHelmet
         title={`${project.title} — Case Study — Paul Lecomte`}
         description={desc}
