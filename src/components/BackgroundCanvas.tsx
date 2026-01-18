@@ -53,7 +53,7 @@ const BackgroundCanvas: React.FC = () => {
     // Particles parameters
     const COUNT = 90; // conservative number to stay light
     const FOV = 400; // field of view for perspective
-    const SPEED = 0.05; // speed multiplier
+    const SPEED = 0.5; // speed multiplier
 
     type Particle = { x: number; y: number; z: number; size: number; hue: number };
     const particles: Particle[] = [];
