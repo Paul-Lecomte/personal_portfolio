@@ -42,6 +42,10 @@ const Projects: React.FC = () => {
                   ))}
                 </div>
                 <p className="mt-3 text-sm text-slate-300">{project.summary}</p>
+                <p className="mt-2 text-xs text-slate-400">
+                  <span className="font-semibold text-slate-200">Impact:</span>{' '}
+                  {project.caseStudy.impact.content[0]}
+                </p>
               </div>
               <div className="mt-4 flex items-center justify-between pt-2">
                 <Link

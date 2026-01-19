@@ -39,7 +39,7 @@ export const SeoHelmet: React.FC<SeoProps> = ({
   const img = absoluteUrl(image) || image;
 
   return (
-    <Helmet prioritizeSeoTags>
+    <Helmet prioritizeSeoTags titleTemplate="%s | Paul Lecomte">
       <title>{title}</title>
       <meta name="description" content={description} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -149,4 +149,3 @@ export function softwareSourceCode(project: {
     license: undefined,
   } as const;
 }
-

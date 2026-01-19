@@ -100,6 +100,24 @@ const Hero: React.FC = () => {
             </a>
           </div>
 
+          {/* Highlights orientés impact pour scannabilité */}
+          <div className="mt-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+              Highlights
+            </p>
+            <ul className="mt-2 space-y-2 text-sm text-slate-300 list-disc list-inside">
+              <li>
+                Transforms raw GTFS data into interactive maps and fast queries (Next.js + Node.js).
+              </li>
+              <li>
+                Designs robust APIs and backends in TypeScript/Rust, with testing and CI.
+              </li>
+              <li>
+                Implements simulations/technical tools (C++/Rust) with clear architecture.
+              </li>
+            </ul>
+          </div>
+
           <p className="pt-2 text-xs text-slate-500">
             Open to internships and new grad roles in backend and full‑stack engineering.
           </p>

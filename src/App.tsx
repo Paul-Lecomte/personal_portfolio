@@ -5,7 +5,7 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Resume from './components/Resume';
 import Contact from './components/Contact';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { SeoHelmet } from './seo/helmet';
 import { personJsonLd, webSiteJsonLd } from './seo/helmet';
 
@@ -13,6 +13,25 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const BackgroundCanvas = lazy(() => import('./components/BackgroundCanvas'));
 
 const MainPage: React.FC = () => {
+  // état pour réduire les animations (préférence utilisateur)
+  const [reducedMotion, setReducedMotion] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem('reducedMotion');
+      if (stored === 'true' || stored === 'false') return stored === 'true';
+    } catch {}
+    // fallback au média query
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || false;
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('reducedMotion', String(reducedMotion));
+    } catch {}
+    // informer les listeners (canvas) du changement
+    const ev = new CustomEvent('reduced-motion-change', { detail: { reducedMotion } });
+    window.dispatchEvent(ev);
+  }, [reducedMotion]);
+
   return (
     <div className="min-h-screen text-slate-100 relative z-10">
       <a
@@ -41,6 +60,16 @@ const MainPage: React.FC = () => {
               Contact
             </a>
           </nav>
+          {/* Toggle réduire les animations */}
+          <button
+            type="button"
+            className="ml-4 inline-flex items-center rounded-full border border-slate-700 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-brand-soft hover:text-brand-soft"
+            aria-pressed={reducedMotion}
+            aria-label={reducedMotion ? 'Activer les animations' : 'Réduire les animations'}
+            onClick={() => setReducedMotion((v) => !v)}
+          >
+            {reducedMotion ? 'Animations Reduced' : 'Reduce animations'}
+          </button>
         </div>
       </header>
 
@@ -60,7 +89,7 @@ const MainPage: React.FC = () => {
       </main>
 
       <footer className="border-t border-slate-800 bg-slate-950/80 py-8" role="contentinfo">
-        <div className="mx-auto max-w-6xl px-4 text-xs text-slate-500">
+        <div className="mx-auto max-w-6xl px-4 text-xs text-slate-500 text-center">
           © {new Date().getFullYear()} Paul Lecomte
         </div>
       </footer>

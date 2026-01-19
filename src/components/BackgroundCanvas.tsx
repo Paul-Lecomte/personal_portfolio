@@ -5,43 +5,16 @@ import React, { useEffect, useRef } from 'react';
 const BackgroundCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
+  const runningRef = useRef<boolean>(false);
 
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        let ctx: CanvasRenderingContext2D | null = null;
-        try {
-          ctx = canvas.getContext('2d');
-        } catch {
-          // running in a non-canvas env (tests)
-          return;
-        }
-        if (ctx) {
-          const width = window.innerWidth;
-          const height = window.innerHeight;
-          const dpr = Math.max(1, window.devicePixelRatio || 1);
-          canvas.width = Math.round(width * dpr);
-          canvas.height = Math.round(height * dpr);
-          // @ts-expect-error in tests may not exist
-          ctx.setTransform?.(dpr, 0, 0, dpr, 0, 0);
-          const grad = ctx.createLinearGradient(0, 0, 0, height);
-          grad.addColorStop(0, 'rgba(10,12,16,0.7)');
-          grad.addColorStop(1, 'rgba(8,10,12,0.9)');
-          ctx.fillStyle = grad;
-          ctx.fillRect(0, 0, width, height);
-        }
-      }
-      return;
-    }
+    const canvasEl = canvasRef.current;
+    if (!canvasEl) return;
 
-    const canvas = canvasRef.current!;
     let ctx: CanvasRenderingContext2D | null = null;
     try {
-      ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
+      ctx = canvasEl.getContext('2d');
     } catch {
-      // env without canvas (tests) -> bail out
       return;
     }
     if (!ctx) return;
@@ -50,28 +23,37 @@ const BackgroundCanvas: React.FC = () => {
     let height = 0;
     let dpr = Math.max(1, window.devicePixelRatio || 1);
 
-    // Particles parameters
-    const COUNT = 90; // conservative number to stay light
-    const FOV = 400; // field of view for perspective
-    const SPEED = 0.5; // speed multiplier
-
-    type Particle = { x: number; y: number; z: number; size: number; hue: number };
-    const particles: Particle[] = [];
-
     function resize() {
+      const el = canvasEl as HTMLCanvasElement; // non-null assertion for TS
       dpr = Math.max(1, window.devicePixelRatio || 1);
-      // use window dimensions for a full-screen fixed canvas to avoid clientWidth being 0
-      width = window.innerWidth || canvas.clientWidth || 0;
-      height = window.innerHeight || canvas.clientHeight || 0;
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      // @ts-expect-error in tests may not exist
-      ctx.setTransform?.(dpr, 0, 0, dpr, 0, 0);
+      width = window.innerWidth || el.clientWidth || 0;
+      height = window.innerHeight || el.clientHeight || 0;
+      el.width = Math.round(width * dpr);
+      el.height = Math.round(height * dpr);
+      // @ts-ignore setTransform may be absent in tests
+      ctx!.setTransform?.(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function initParticles() {
-      particles.length = 0;
-      for (let i = 0; i < COUNT; i++) {
+    function drawStaticBackground() {
+      ctx!.clearRect(0, 0, width, height);
+      const grad = ctx!.createLinearGradient(0, 0, 0, height);
+      grad.addColorStop(0, 'rgba(10,12,16,0.7)');
+      grad.addColorStop(1, 'rgba(8,10,12,0.9)');
+      ctx!.fillStyle = grad;
+      ctx!.fillRect(0, 0, width, height);
+    }
+
+    // Particles parameters
+    const BASE_COUNT = 90;
+    const FOV = 400;
+    const SPEED = 0.5;
+
+    type Particle = { x: number; y: number; z: number; size: number; hue: number };
+    let particles: Particle[] = [];
+
+    function initParticles(count: number) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
         particles.push({
           x: (Math.random() - 0.5) * width * 1.6,
           y: (Math.random() - 0.5) * height * 1.2,
@@ -83,25 +65,35 @@ const BackgroundCanvas: React.FC = () => {
     }
 
     let last = performance.now();
+    let throttle = 0; // simple throttle to ~60/2 fps when needed
 
     function step(now: number) {
+      if (!runningRef.current) return;
+
       const dt = Math.min(50, now - last);
       last = now;
 
-      ctx.clearRect(0, 0, width, height);
+      // throttle every other frame if hidden
+      if (document.hidden) {
+        throttle = (throttle + 1) % 2;
+        if (throttle !== 0) {
+          rafRef.current = requestAnimationFrame(step);
+          return;
+        }
+      }
 
-      // subtle background gradient
-      const grad = ctx.createLinearGradient(0, 0, 0, height);
+      ctx!.clearRect(0, 0, width, height);
+
+      const grad = ctx!.createLinearGradient(0, 0, 0, height);
       grad.addColorStop(0, 'rgba(10,12,16,0.7)');
       grad.addColorStop(1, 'rgba(8,10,12,0.9)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, width, height);
+      ctx!.fillStyle = grad;
+      ctx!.fillRect(0, 0, width, height);
 
-      ctx.save();
-      ctx.translate(width / 2, height / 2 - 30);
+      ctx!.save();
+      ctx!.translate(width / 2, height / 2 - 30);
 
       for (let p of particles) {
-        // move particle towards camera
         p.z -= (SPEED * dt) * 0.12;
         if (p.z <= 1) {
           p.z = FOV;
@@ -115,39 +107,102 @@ const BackgroundCanvas: React.FC = () => {
         const y2 = p.y * scale;
         const s2 = p.size * scale * 2.2;
 
-        // subtle glow
         const alpha = Math.min(1, (1 - p.z / FOV) * 1.1);
-        ctx.beginPath();
+        ctx!.beginPath();
         const hue = p.hue;
-        ctx.fillStyle = `hsla(${hue}, 70%, 60%, ${alpha * 0.12})`;
-        ctx.arc(x2, y2, s2 * 6, 0, Math.PI * 2);
-        ctx.fill();
+        ctx!.fillStyle = `hsla(${hue}, 70%, 60%, ${alpha * 0.12})`;
+        ctx!.arc(x2, y2, s2 * 6, 0, Math.PI * 2);
+        ctx!.fill();
 
-        ctx.beginPath();
-        ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${alpha})`;
-        ctx.arc(x2, y2, s2, 0, Math.PI * 2);
-        ctx.fill();
+        ctx!.beginPath();
+        ctx!.fillStyle = `hsla(${hue}, 80%, 70%, ${alpha})`;
+        ctx!.arc(x2, y2, s2, 0, Math.PI * 2);
+        ctx!.fill();
       }
 
-      ctx.restore();
+      ctx!.restore();
 
       rafRef.current = requestAnimationFrame(step);
     }
 
     const handleResize = () => {
       resize();
-      initParticles();
+      drawStaticBackground();
+      if (runningRef.current) {
+        initParticles(currentCount);
+      }
     };
 
-    // initialize
+    // initial sizing
     resize();
-    initParticles();
-    rafRef.current = requestAnimationFrame(step);
 
+    // determine reduced motion preference (localStorage overrides media query)
+    const stored = (() => {
+      try {
+        return localStorage.getItem('reducedMotion');
+      } catch {
+        return null;
+      }
+    })();
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || false;
+    let reducedMotion = stored === 'true' ? true : stored === 'false' ? false : prefersReduced;
+
+    let currentCount = reducedMotion ? Math.max(20, Math.round(BASE_COUNT * 0.25)) : BASE_COUNT;
+
+    if (reducedMotion) {
+      runningRef.current = false;
+      drawStaticBackground();
+    } else {
+      runningRef.current = true;
+      initParticles(currentCount);
+      rafRef.current = requestAnimationFrame(step);
+    }
+
+    function handlePrefChange(e: Event | MediaQueryListEvent | CustomEvent) {
+      let nextReduced = reducedMotion;
+      if ('detail' in e && (e as CustomEvent).detail?.reducedMotion !== undefined) {
+        nextReduced = Boolean((e as CustomEvent).detail.reducedMotion);
+      } else if ('matches' in e) {
+        nextReduced = (e as MediaQueryListEvent).matches;
+      }
+
+      if (nextReduced === reducedMotion) return;
+      reducedMotion = nextReduced;
+      currentCount = reducedMotion ? Math.max(20, Math.round(BASE_COUNT * 0.25)) : BASE_COUNT;
+
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+
+      if (reducedMotion) {
+        runningRef.current = false;
+        drawStaticBackground();
+      } else {
+        runningRef.current = true;
+        initParticles(currentCount);
+        rafRef.current = requestAnimationFrame(step);
+      }
+    }
+
+    const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    mq?.addEventListener?.('change', handlePrefChange as any);
+    window.addEventListener('reduced-motion-change', handlePrefChange as any);
     window.addEventListener('resize', handleResize);
+    document.addEventListener('visibilitychange', () => {
+      // pause when hidden
+      if (document.hidden && rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      } else if (!document.hidden && runningRef.current && !rafRef.current) {
+        rafRef.current = requestAnimationFrame(step);
+      }
+    });
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      mq?.removeEventListener?.('change', handlePrefChange as any);
+      window.removeEventListener('reduced-motion-change', handlePrefChange as any);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
