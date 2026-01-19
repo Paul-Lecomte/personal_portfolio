@@ -57,11 +57,12 @@ const Hero: React.FC = () => {
 
           <div className="flex flex-wrap gap-2 pt-2">
             {[
-              'Rust',
+              'Python',
               'C++',
               'TypeScript',
               'React',
               'Node.js',
+              'Rust',
               'PostgreSQL',
               'MongoDB',
               'GitHub Actions',
