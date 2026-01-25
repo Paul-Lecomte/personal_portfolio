@@ -1,5 +1,6 @@
 import type React from 'react';
 import { track } from '../utils/analytics';
+import { useScrollReveal, useParallax, useTilt, useMagnetic, usePrefersReducedMotion } from '../utils/motion';
 
 const tech = {
   Languages: [
@@ -33,17 +34,30 @@ const tech = {
 };
 
 const Hero: React.FC = () => {
+  const { ref: heroRef, visible } = useScrollReveal({ threshold: 0.12 });
+  const { ref: titleRef } = useParallax(16);
+  const { ref: cardRef } = useTilt(6);
+  const { ref: ctaRef } = useMagnetic(0.12);
+  const reduced = usePrefersReducedMotion();
+
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900"
+      className="min-h-screen flex items-center bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900 gradient-hero"
     >
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:py-24">
+      <div
+        ref={heroRef as unknown as React.RefObject<HTMLDivElement>}
+        className={`mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:py-24 ${visible ? 'reveal-visible' : 'reveal-init'}`}
+      >
         <div className="max-w-xl space-y-6">
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-brand-soft">
             Backend & Full‑Stack Engineering
           </p>
-          <h1 className="text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl">
+          <h1
+            ref={titleRef as unknown as React.RefObject<HTMLHeadingElement>}
+            className="text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
+            style={reduced ? undefined : { willChange: 'transform' }}
+          >
             Paul Lecomte
           </h1>
           <p className="text-lg text-slate-300 sm:text-xl">
@@ -78,8 +92,9 @@ const Hero: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <a
+              ref={ctaRef as unknown as React.RefObject<HTMLAnchorElement>}
               href="mailto:lecomtepaulvd@gmail.com?subject=Hiring%20inquiry%20—%20Paul%20Lecomte"
-              className="inline-flex items-center justify-center rounded-full bg-brand-primary px-5 py-2.5 text-sm font-medium text-slate-50 shadow-lg shadow-brand-primary/40 transition hover:bg-brand-soft"
+              className="inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-2.5 text-sm font-medium text-slate-50 shadow-brand hover:bg-brand-600 transition-transform"
               aria-label="Hire me via email"
             >
               Hire me
@@ -87,7 +102,7 @@ const Hero: React.FC = () => {
             <a
               href="/Paul-Lecomte-CV.pdf"
               download
-              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-soft hover:text-brand-soft"
+              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
               aria-label="Download my resume as PDF"
               onClick={() => track('download_cv')}
             >
@@ -95,7 +110,7 @@ const Hero: React.FC = () => {
             </a>
             <a
               href="#projects"
-              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-soft hover:text-brand-soft"
+              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
             >
               View Projects
             </a>
@@ -125,7 +140,11 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="mt-8 w-full md:mt-0 md:max-w-lg lg:max-w-xl">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-slate-950/70 backdrop-blur overflow-hidden">
+          <div
+            ref={cardRef as unknown as React.RefObject<HTMLDivElement>}
+            className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-slate-950/70 backdrop-blur overflow-hidden hover:shadow-brand transition-transform"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
               Tech snapshot
             </p>
@@ -139,7 +158,7 @@ const Hero: React.FC = () => {
                     {items.map((label) => (
                       <span
                         key={label}
-                        className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-slate-200 shadow-sm transition hover:border-brand-soft hover:text-brand-soft"
+                        className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-slate-200 shadow-sm transition hover:border-brand-400 hover:text-brand-300"
                       >
                         {label}
                       </span>
@@ -150,6 +169,14 @@ const Hero: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Scroll hint */}
+      <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-slate-400">
+        <div className="mx-auto h-8 w-14 rounded-full border border-slate-700/60 bg-glass flex items-center justify-center">
+          <div className="h-2 w-1 rounded bg-slate-400 animate-bounce" />
+        </div>
+        <span className="mt-2 block text-xs">Scroll</span>
       </div>
     </section>
   );

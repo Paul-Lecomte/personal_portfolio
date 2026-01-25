@@ -1,14 +1,20 @@
-import type React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useScrollReveal, useTilt } from '../utils/motion';
 import { projects } from '../data/projects';
 import { track } from '../utils/analytics';
 
 const Projects: React.FC = () => {
+  const { ref, visible } = useScrollReveal({ threshold: 0.15 });
+
   const ordered = [...projects].sort((a, b) => a.order - b.order);
 
   return (
-    <section id="projects" className="border-t border-slate-800 bg-slate-950/80 py-16">
-      <div className="mx-auto max-w-5xl px-4">
+    <section id="projects" className="py-16 md:py-24">
+      <div
+        ref={ref as unknown as React.RefObject<HTMLDivElement>}
+        className={`mx-auto max-w-6xl px-4 ${visible ? 'reveal-visible' : 'reveal-init'}`}
+      >
         <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-soft">
           Featured Projects
         </h2>
@@ -21,57 +27,62 @@ const Projects: React.FC = () => {
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {ordered.map((project) => (
-            <article
-              key={project.id}
-              className="flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-sm shadow-slate-950/60 transition hover:border-brand-soft/80 hover:shadow-md hover:shadow-brand-primary/20"
-            >
-              <div>
-                <h3 className="text-lg font-semibold text-slate-50">{project.title}</h3>
-                <p className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
-                  {project.tagline}
-                </p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full bg-slate-800/80 px-2.5 py-1 text-xs text-slate-200"
-                    >
-                      {t}
-                    </span>
-                  ))}
+          {ordered.map((project) => {
+            const { ref: cardRef } = useTilt(4);
+            return (
+              <article
+                key={project.id}
+                ref={cardRef as unknown as React.RefObject<HTMLAnchorElement>}
+                className="flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-sm shadow-slate-950/60 transition-transform hover:shadow-brand"
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-50">{project.title}</h3>
+                  <p className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+                    {project.tagline}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full bg-slate-800/80 px-2.5 py-1 text-xs text-slate-200"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-sm text-slate-300">{project.summary}</p>
+                  <p className="mt-2 text-xs text-slate-400">
+                    <span className="font-semibold text-slate-200">Impact:</span>{' '}
+                    {project.caseStudy.impact.content[0]}
+                  </p>
                 </div>
-                <p className="mt-3 text-sm text-slate-300">{project.summary}</p>
-                <p className="mt-2 text-xs text-slate-400">
-                  <span className="font-semibold text-slate-200">Impact:</span>{' '}
-                  {project.caseStudy.impact.content[0]}
-                </p>
-              </div>
-              <div className="mt-4 flex items-center justify-between pt-2">
-                <Link
-                  to={`/project/${project.id}`}
-                  className="inline-flex items-center text-sm font-medium text-brand-soft hover:text-brand-primary"
-                  aria-label={`View case study for ${project.title}`}
-                  onClick={() => track('view_project', { id: project.id, title: project.title })}
-                >
-                  View case study
-                  <span className="ml-1 text-xs">→</span>
-                </Link>
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center text-xs text-slate-400 hover:text-slate-200"
-                  aria-label={`Open ${project.title} on GitHub in a new tab`}
-                >
-                  GitHub
-                  <span className="ml-1" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              </div>
-            </article>
-          ))}
+                <div className="mt-4 flex items-center justify-between pt-2">
+                  <Link
+                    to={`/project/${project.id}`}
+                    className="inline-flex items-center text-sm font-medium text-brand-soft hover:text-brand-primary"
+                    aria-label={`View case study for ${project.title}`}
+                    onClick={() => track('view_project', { id: project.id, title: project.title })}
+                  >
+                    View case study
+                    <span className="ml-1 text-xs">→</span>
+                  </Link>
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center text-xs text-slate-400 hover:text-slate-200"
+                    aria-label={`Open ${project.title} on GitHub in a new tab`}
+                  >
+                    GitHub
+                    <span className="ml-1" aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

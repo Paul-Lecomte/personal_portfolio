@@ -5,3 +5,37 @@
 body {
   @apply text-slate-100 font-sans antialiased;
 }
+
+:root {
+  --gradient-start: #0ea5e9;
+  --gradient-end: #9333ea;
+}
+
+.reveal-init { opacity: 0; transform: translateY(12px); }
+.reveal-visible { opacity: 1; transform: translateY(0); transition: opacity 600ms ease, transform 600ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-visible { transition: none; }
+}
+
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+}
+
+.bg-glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.dark .bg-glass {
+  background: rgba(17,24,39,0.55);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.gradient-hero {
+  background-image: radial-gradient(600px circle at 20% 10%, rgba(59,130,246,0.25), transparent 40%),
+                    radial-gradient(600px circle at 80% 20%, rgba(147,51,234,0.22), transparent 40%),
+                    radial-gradient(800px circle at 50% 80%, rgba(14,165,233,0.18), transparent 40%);
+}

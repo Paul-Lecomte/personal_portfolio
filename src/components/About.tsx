@@ -1,14 +1,16 @@
-import type React from 'react';
+import React from 'react';
+import { useScrollReveal } from '../utils/motion';
 
 const About: React.FC = () => {
+  const { ref, visible } = useScrollReveal({ threshold: 0.15 });
   return (
-    <section id="about" className="border-t border-slate-800 bg-slate-950/80 py-16">
-      <div className="mx-auto max-w-4xl px-4">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-soft">About</h2>
-        <h3 className="mt-4 text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-          I like turning ideas into clean, testable systems.
-        </h3>
-        <p className="mt-4 text-sm text-slate-300 sm:text-base">
+    <section id="about" className="py-16 md:py-24">
+      <div
+        ref={ref as unknown as React.RefObject<HTMLDivElement>}
+        className={`mx-auto max-w-4xl px-4 ${visible ? 'reveal-visible' : 'reveal-init'}`}
+      >
+        <h2 className="text-3xl font-semibold tracking-tight text-slate-50 md:text-4xl">About</h2>
+        <p className="mt-4 text-slate-300">
           I’m a final-year Computer Science student with a strong focus on backend and full‑stack
           development. Most of my work lives in Rust, C++, and TypeScript — building routing
           backends over GTFS data, messaging APIs, and web frontends with React.
