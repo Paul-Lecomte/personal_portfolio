@@ -11,6 +11,12 @@ export type Project = {
   summary: string;
   order: number;
   githubUrl: string; // lien vers le repo GitHub correspondant
+  problem: string;
+  role: string;
+  challenges: string[];
+  solution: string[];
+  outcome: string[];
+  liveDemoUrl?: string;
   caseStudy: {
     problem: CaseStudySection;
     approach: CaseStudySection;
@@ -36,9 +42,26 @@ export const projects: Project[] = [
       'GTFS',
     ],
     summary:
-      'SwissTransitMap is a full‑stack web app that visualizes the Swiss public transport network using GTFS data. It combines a modern Next.js + React + Leaflet frontend with a Node.js/Express backend and MongoDB to provide fast stop search, route exploration and basic fastest-path queries.',
+      'SwissTransitMap is a full-stack web app that visualizes the Swiss public transport network using GTFS data. It combines a modern Next.js + React + Leaflet frontend with a Node.js/Express backend and MongoDB to provide fast stop search, route exploration and basic fastest-path queries.',
     order: 1,
     githubUrl: 'https://github.com/Paul-Lecomte/swiss-pb-map',
+    problem:
+      'GTFS data is rich but hard to explore; riders cannot quickly visualize routes, stops, and transfers on an interactive map.',
+    role: 'Full-stack developer owning data ingestion, API design, and the React map UI.',
+    challenges: [
+      'Modeling GTFS tables in MongoDB with query-friendly schemas and indexes.',
+      'Serving fast bounding-box and stop-search queries for an interactive map.',
+      'Keeping map interactions smooth while streaming data from the API.',
+    ],
+    solution: [
+      'Built a Node.js/Express API with focused endpoints for stops, routes, and trips.',
+      'Preprocessed GTFS feeds into indexed collections for fast spatial filtering.',
+      'Implemented a React-Leaflet UI with efficient fetching and caching patterns.',
+    ],
+    outcome: [
+      'Delivered a usable map for stop search, route exploration, and basic routing.',
+      'Improved API response times by precomputing and indexing GTFS data.',
+    ],
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -52,7 +75,7 @@ export const projects: Project[] = [
         content: [
           'Designed a full‑stack architecture with a Next.js/React frontend for the UI and a Node.js/Express backend for GTFS ingestion, data processing and API endpoints.',
           'Used MongoDB as the primary store for GTFS tables (stops, routes, trips, stop times, transfers, etc.) and for preprocessed views that are efficient to query from the map.',
-          'Integrated React‑Leaflet to render the network on top of map tiles and to provide smooth panning/zooming interactions, while fetching data from the backend via typed services.',
+          'Integrated React-Leaflet to render the network on top of map tiles and to provide smooth panning/zooming interactions, while fetching data from the backend via typed services.',
         ],
       },
       architecture: {
@@ -60,14 +83,14 @@ export const projects: Project[] = [
         content: [
           'A backend folder containing an Express.js API that exposes endpoints for stops (search and bounding-box queries), routes, trips, basic real-time data and a fastest-path endpoint.',
           'A set of Mongoose models mapping GTFS entities (stops, routes, trips, stop times, transfers, etc.) to MongoDB collections, plus utility scripts to import and preprocess GTFS feeds.',
-          'Frontend built with Next.js (App Router), React, TypeScript, MUI and React‑Leaflet, structured around map components, route info panels and service modules for calling the backend.',
+          'Frontend built with Next.js (App Router), React, TypeScript, MUI and React-Leaflet, structured around map components, route info panels and service modules for calling the backend.',
           'Support for GTFS enrichment using pfaedle and Docker, with scripts to generate enhanced GTFS data (including shapes) before ingestion.',
         ],
       },
       impact: {
         title: 'Impact & Learnings',
         content: [
-          'Built an end‑to‑end system that goes from raw Swiss GTFS feeds to an interactive map and routing experience, touching data ingestion, APIs and frontend UX.',
+          'Built an end-to-end system that goes from raw Swiss GTFS feeds to an interactive map and routing experience, touching data ingestion, APIs and frontend UX.',
           'Gained experience modeling GTFS data in MongoDB and exposing it via a clean, focused REST API for frontend consumption.',
           'Practiced structuring a Next.js + Node.js project with clear boundaries between data processing, API routes and interactive map components.',
         ],
@@ -84,6 +107,23 @@ export const projects: Project[] = [
       'A calculator for Arma Reforger artillery that computes firing angles and parameters based on positions and weapon characteristics, packaging the logic into reusable, game-friendly components.',
     order: 2,
     githubUrl: 'https://github.com/Paul-Lecomte/Arma-Reforger-Artillery-Calculator',
+    problem:
+      'Players need fast, accurate artillery solutions without manual trigonometry during gameplay.',
+    role: 'Solo developer implementing the math engine and gameplay integration.',
+    challenges: [
+      'Turning weapon presets into reusable, consistent calculation inputs.',
+      'Balancing accuracy with a fast workflow for in-game use.',
+      'Keeping the math logic testable and separate from UI glue.',
+    ],
+    solution: [
+      'Built a core computation module for distance, elevation, and firing angle logic.',
+      'Separated math utilities from game-specific integration code.',
+      'Documented assumptions to keep the tool reliable and adaptable.',
+    ],
+    outcome: [
+      'Delivered a reusable calculator with predictable firing solutions.',
+      'Improved artillery workflow speed for players in-game.',
+    ],
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -125,14 +165,31 @@ export const projects: Project[] = [
       'A small web app that analyzes and playfully “roasts” user profiles, experimenting with UI, APIs and content generation.',
     tech: ['TypeScript', 'React', 'Node.js', 'REST API'],
     summary:
-      'A full‑stack experiment that takes user profile data, runs it through a backend, and returns structured “roasts” and feedback, focusing on UI polish and clear API contracts.',
+      'A full-stack experiment that takes user profile data, runs it through a backend, and returns structured “roasts” and feedback, focusing on UI polish and clear API contracts.',
     order: 3,
     githubUrl: 'https://github.com/Paul-Lecomte/profile_roasting',
+    problem:
+      'Raw profile data needs to be transformed into structured, readable feedback with consistent formatting.',
+    role: 'Full-stack developer building both the API and the UI.',
+    challenges: [
+      'Normalizing loosely structured inputs into stable payloads.',
+      'Keeping the UI light while handling error states and validation.',
+      'Designing a clean request-response contract between UI and API.',
+    ],
+    solution: [
+      'Built a TypeScript API that validates input and returns normalized responses.',
+      'Designed a React UI that focuses on clarity and quick iteration.',
+      'Documented payloads so front and back end stay loosely coupled.',
+    ],
+    outcome: [
+      'Delivered a playful demo with clear API boundaries and UI polish.',
+      'Improved reliability of output formatting with validation rules.',
+    ],
     caseStudy: {
       problem: {
         title: 'Problem',
         content: [
-          'I wanted a fun project to practice building a small full‑stack web application end to end: UI, backend API and data flow.',
+          'I wanted a fun project to practice building a small full-stack web application end to end: UI, backend API and data flow.',
           'The idea was to “roast” profiles in a light way, which requires turning loosely structured input into consistent, readable output.',
         ],
       },
@@ -172,6 +229,24 @@ export const projects: Project[] = [
       'The site you are reading: a single-page React application that presents my projects as concise case studies, with a focus on clarity, hierarchy and modern UI patterns.',
     order: 4,
     githubUrl: 'https://github.com/Paul-Lecomte/portfolio',
+    problem:
+      'Existing templates over-emphasize visuals and underplay technical depth; I needed a clean, narrative portfolio.',
+    role: 'Designer and developer responsible for content, UI, and frontend implementation.',
+    challenges: [
+      'Condensing technical work into scannable, recruiter-friendly sections.',
+      'Balancing motion and performance on a single-page app.',
+      'Maintaining a consistent design system across sections.',
+    ],
+    solution: [
+      'Structured the site around problem, approach, and impact for each project.',
+      'Used Tailwind CSS for a consistent spacing and typography system.',
+      'Implemented reusable components and data-driven project content.',
+    ],
+    outcome: [
+      'Delivered a focused portfolio optimized for recruiters and hiring managers.',
+      'Improved clarity with structured case studies and strong CTAs.',
+    ],
+    liveDemoUrl: 'https://paulportfolio-beta.vercel.app/',
     caseStudy: {
       problem: {
         title: 'Problem',
@@ -215,6 +290,23 @@ export const projects: Project[] = [
       'A modern C++ implementation of Conway’s Game of Life with a clear separation between simulation logic and rendering, and an efficient grid representation.',
     order: 5,
     githubUrl: 'https://github.com/Paul-Lecomte/conway_game_of_life',
+    problem:
+      'A classic cellular automaton is a good testbed for clean simulation architecture and performance practices.',
+    role: 'C++ developer focused on simulation design and data structures.',
+    challenges: [
+      'Keeping the update loop readable while maintaining performance.',
+      'Designing a grid representation that scales to larger boards.',
+      'Separating simulation logic from rendering concerns.',
+    ],
+    solution: [
+      'Implemented a modular simulation core with dedicated update utilities.',
+      'Used efficient data structures for grid iteration and state changes.',
+      'Kept rendering optional and decoupled from core logic.',
+    ],
+    outcome: [
+      'Delivered a clear, maintainable GoL implementation in modern C++.',
+      'Improved understanding of performance trade-offs in grid simulations.',
+    ],
     caseStudy: {
       problem: {
         title: 'Problem',

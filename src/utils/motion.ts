@@ -112,3 +112,30 @@ export function useMagnetic(strength = 0.2) {
   }, [strength]);
   return { ref } as const;
 }
+
+export function useActiveSection(sectionIds: string[], rootMargin = '-45% 0px -45% 0px') {
+  const [active, setActive] = useState<string>(sectionIds[0] ?? '');
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin, threshold: [0.15, 0.3, 0.6] }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [sectionIds.join('|'), rootMargin]);
+
+  return active;
+}
