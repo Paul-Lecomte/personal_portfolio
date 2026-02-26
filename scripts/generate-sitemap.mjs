@@ -66,22 +66,34 @@ urls
   // Also copy existing root files if present (non-blocking)
   try {
     await copyFile(resolve(__dirname, '../robots.txt'), resolve(outDir, 'robots.txt'));
-  } catch {}
+  } catch (err) {
+    void err;
+  }
   try {
     await copyFile(resolve(__dirname, '../sitemap.xml'), resolve(outDir, 'sitemap.xml'));
-  } catch {}
+  } catch (err) {
+    void err;
+  }
   try {
     await copyFile(resolve(__dirname, '../apple-touch-icon.png'), resolve(outDir, 'apple-touch-icon.png'));
-  } catch {}
+  } catch (err) {
+    void err;
+  }
   try {
     await copyFile(resolve(__dirname, '../favicon.svg'), resolve(outDir, 'favicon.svg'));
-  } catch {}
+  } catch (err) {
+    void err;
+  }
   try {
     await copyFile(resolve(__dirname, '../og-image.svg'), resolve(outDir, 'og-image.svg'));
-  } catch {}
+  } catch (err) {
+    void err;
+  }
   try {
     await copyFile(resolve(__dirname, '../public/favicon.ico'), resolve(outDir, 'favicon.ico'));
-  } catch {}
+  } catch (err) {
+    void err;
+  }
 
   console.log('[sitemap] Generated sitemap.xml and robots.txt');
 }

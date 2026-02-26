@@ -15,10 +15,15 @@ const BackgroundCanvas = lazy(() => import('./components/BackgroundCanvas'));
 const MainPage: React.FC = () => {
   // état pour réduire les animations (préférence utilisateur)
   const [reducedMotion, setReducedMotion] = useState<boolean>(() => {
+    let stored: string | null = null;
     try {
-      const stored = localStorage.getItem('reducedMotion');
-      if (stored === 'true' || stored === 'false') return stored === 'true';
-    } catch {}
+      stored = localStorage.getItem('reducedMotion');
+    } catch (err) {
+      // Ignore storage access errors (e.g. privacy mode).
+      stored = null;
+      void err;
+    }
+    if (stored === 'true' || stored === 'false') return stored === 'true';
     // fallback au média query
     return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || false;
   });
@@ -26,7 +31,9 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     try {
       localStorage.setItem('reducedMotion', String(reducedMotion));
-    } catch {}
+    } catch (err) {
+      void err;
+    }
     // informer les listeners (canvas) du changement
     const ev = new CustomEvent('reduced-motion-change', { detail: { reducedMotion } });
     window.dispatchEvent(ev);
