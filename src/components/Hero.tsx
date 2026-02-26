@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
               Hire me
             </a>
             <a
-              href="/Paul-Lecomte-CV.pdf"
+              href="/public/Paul-Lecomte-CV.pdf"
               download
               className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
               aria-label="Download my resume as PDF"

@@ -1,4 +1,5 @@
 import type React from 'react';
+import {track} from "../utils/analytics";
 
 const Resume: React.FC = () => {
   return (
@@ -47,10 +48,13 @@ const Resume: React.FC = () => {
 
         <div className="mt-8">
           <a
-            href="#contact"
-            className="inline-flex items-center rounded-full border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-brand-soft hover:text-brand-soft"
+              href="/public/Paul-Lecomte-CV.pdf"
+              download
+              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
+              aria-label="Download my resume as PDF"
+              onClick={() => track('download_cv')}
           >
-            Request full resume
+            Download my resume
           </a>
         </div>
       </div>
