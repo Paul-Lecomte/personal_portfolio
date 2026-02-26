@@ -48,7 +48,7 @@ const Resume: React.FC = () => {
 
         <div className="mt-8">
           <a
-              href="/public/Paul-Lecomte-CV.pdf"
+              href="/Paul-Lecomte-CV.pdf"
               download
               className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
               aria-label="Download my resume as PDF"
