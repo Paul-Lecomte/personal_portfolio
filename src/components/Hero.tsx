@@ -2,36 +2,11 @@ import type React from 'react';
 import { track } from '../utils/analytics';
 import { useScrollReveal, useParallax, useTilt, useMagnetic, usePrefersReducedMotion } from '../utils/motion';
 
-const tech = {
-  Languages: [
-    'HTML',
-    'CSS',
-    'JavaScript',
-    'TypeScript',
-    'Sass',
-    'Less',
-    'Node.js',
-    'PHP',
-    'Python',
-    'Rust',
-    'C++',
-  ],
-  Frameworks: [
-    'Next.js',
-    'React',
-    'Vue.js',
-    'Nuxt.js',
-    'Tailwind CSS',
-    'Vite',
-    'Express.js',
-    'Babylon.js',
-    'Lightweight Charts',
-    'Symfony',
-  ],
-  Databases: ['MongoDB', 'MySQL', 'PostgreSQL', 'SQLite', 'Redis', 'Neo4j'],
-  Tools: ['Figma', 'Git', 'VSCode', 'JetBrains', 'Bulma', 'Vercel', 'GraphQL', 'AWS'],
-  APIs: ['OpenAI', 'Gemini', 'SBB CFF FFS', 'Mapbox', 'Google Maps API', 'REST', 'GraphQL API'],
-};
+const metrics = [
+  { label: 'Experience', value: 'Full-stack focus' },
+  { label: 'Core stack', value: 'React + Node + SQL' },
+  { label: 'Delivery style', value: 'Product + Systems' },
+];
 
 const Hero: React.FC = () => {
   const { ref: heroRef, visible } = useScrollReveal({ threshold: 0.12 });
@@ -43,140 +18,115 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900 gradient-hero"
+      className="relative flex min-h-[88vh] items-center overflow-hidden border-b border-slate-800/70 gradient-hero"
     >
       <div
         ref={heroRef as unknown as React.RefObject<HTMLDivElement>}
-        className={`mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:py-24 ${visible ? 'reveal-visible' : 'reveal-init'}`}
+        className={`section-shell grid w-full gap-10 py-16 md:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center ${visible ? 'reveal-visible' : 'reveal-init'}`}
       >
-        <div className="max-w-xl space-y-6">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-brand-soft">
-            Backend & Full‑Stack Engineering
+        <div className="max-w-2xl space-y-6">
+          <p className="section-kicker">
+            Full-stack software engineer
           </p>
           <h1
             ref={titleRef as unknown as React.RefObject<HTMLHeadingElement>}
-            className="text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
+            className="font-display text-4xl font-semibold leading-tight tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
             style={reduced ? undefined : { willChange: 'transform' }}
           >
-            Paul Lecomte
+            I design and ship modern full-stack products from frontend UX to backend reliability.
           </h1>
-          <p className="text-lg text-slate-300 sm:text-xl">
-            I build reliable backends and web apps in Rust, C++, and TypeScript — with a focus on
-            performance and clear architecture.
+          <p className="max-w-xl text-base leading-relaxed text-slate-200 sm:text-lg">
+            I build responsive user interfaces, robust APIs, and scalable data flows that feel
+            clean for users and maintainable for teams.
           </p>
-          <p className="text-sm text-slate-400">
-            Recent work includes GTFS routing, interactive mapping, and simulation tools. Case
-            studies highlight problem → approach → impact.
+          <p className="max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
+            Recent work includes web apps, internal tools, and systems projects where performance,
+            UX clarity, and engineering quality all matter.
           </p>
 
-          <div className="flex flex-wrap gap-2 pt-2">
-            {[
-              'Python',
-              'C++',
-              'TypeScript',
-              'React',
-              'Node.js',
-              'Rust',
-              'PostgreSQL',
-              'MongoDB',
-              'GitHub Actions',
-            ].map((label) => (
-              <span
-                key={label}
-                className="rounded-full border border-slate-700 bg-slate-900/60 px-3 py-1 text-xs text-slate-200 shadow-sm shadow-slate-900/60 backdrop-blur transition hover:border-brand-soft hover:text-brand-soft"
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {metrics.map((metric) => (
+              <div
+                key={metric.label}
+                className="card-surface"
               >
-                {label}
-              </span>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  {metric.label}
+                </p>
+                <p className="mt-2 text-base font-semibold text-slate-50">{metric.value}</p>
+              </div>
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
               ref={ctaRef as unknown as React.RefObject<HTMLAnchorElement>}
-              href="mailto:lecomtepaulvd@gmail.com?subject=Hiring%20inquiry%20—%20Paul%20Lecomte"
-              className="inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-2.5 text-sm font-medium text-slate-50 shadow-brand hover:bg-brand-600 transition-transform"
-              aria-label="Hire me via email"
-            >
-              Hire me
-            </a>
-            <a
-              href="/Paul-Lecomte-CV.pdf"
-              download
-              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
-              aria-label="Download my resume as PDF"
-              onClick={() => track('download_cv')}
-            >
-              Download my resume
-            </a>
-            <a
               href="#projects"
-              className="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-brand-400 hover:text-brand-300"
+              className="btn-primary"
+              aria-label="Review backend case studies"
             >
-              View Projects
+              View full-stack projects
+            </a>
+            <a
+              href="mailto:lecomtepaulvd@gmail.com?subject=New%20grad%20backend%20role%20-%20Paul%20Lecomte"
+              className="btn-secondary"
+              aria-label="Email about backend roles"
+            >
+              Let's work together
             </a>
           </div>
+          <a
+            href="/Paul-Lecomte-CV.pdf"
+            download
+            className="btn-link"
+            aria-label="Download my resume as PDF"
+            onClick={() => track('download_cv')}
+          >
+            Download resume
+            <span className="ml-1" aria-hidden="true">
+              ↘
+            </span>
+          </a>
 
-          {/* Highlights orientés impact pour scannabilité */}
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-              Highlights
+          <div className="w-full border-t border-slate-800/80 pt-3">
+            <p className="text-xs text-slate-500 sm:text-sm">
+              Open to full-stack roles and internships. Availability: May 2026.
             </p>
-            <ul className="mt-2 space-y-2 text-sm text-slate-300 list-disc list-inside">
-              <li>
-                Transforms raw GTFS data into interactive maps and fast queries (Next.js + Node.js).
-              </li>
-              <li>
-                Designs robust APIs and backends in TypeScript/Rust, with testing and CI.
-              </li>
-              <li>
-                Implements simulations/technical tools (C++/Rust) with clear architecture.
-              </li>
-            </ul>
           </div>
-
-          <p className="pt-2 text-xs text-slate-500">
-            Open to internships and new grad roles in backend and full‑stack engineering.
-          </p>
         </div>
 
-        <div className="mt-8 w-full md:mt-0 md:max-w-lg lg:max-w-xl">
+        <div className="w-full lg:justify-self-end lg:max-w-xl">
           <div
             ref={cardRef as unknown as React.RefObject<HTMLDivElement>}
-            className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl shadow-slate-950/70 backdrop-blur overflow-hidden hover:shadow-brand transition-transform"
+            className="card-elevated overflow-hidden transition-transform hover:scale-[1.01]"
             style={{ transformStyle: 'preserve-3d' }}
           >
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
-              Tech snapshot
+            <p className="section-kicker text-accent-200">System snapshot</p>
+            <h2 className="mt-3 font-display text-2xl font-semibold text-slate-50">
+              Product architecture snapshot
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-200 sm:text-base">
+              UX flows {'->'} API contracts {'->'} business logic {'->'} data layer {'->'} monitoring.
             </p>
-            <div className="mt-4 grid gap-6 sm:grid-cols-2">
-              {Object.entries(tech).map(([category, items]) => (
-                <div key={category} className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
-                    {category}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map((label) => (
-                      <span
-                        key={label}
-                        className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-xs text-slate-200 shadow-sm transition hover:border-brand-400 hover:text-brand-300"
-                      >
-                        {label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {['Design systems', 'API design', 'Testing', 'CI/CD'].map((item) => (
+                <span key={item} className="badge-soft">
+                  {item}
+                </span>
               ))}
+            </div>
+            <div className="mt-5 rounded-2xl border border-accent-400/30 bg-accent-500/10 p-3 text-xs text-accent-100 sm:text-sm">
+              Scroll for experience, project case studies, and end-to-end stack details.
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll hint */}
       <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-slate-400">
-        <div className="mx-auto h-8 w-14 rounded-full border border-slate-700/60 bg-glass flex items-center justify-center">
-          <div className="h-2 w-1 rounded bg-slate-400 animate-bounce" />
+        <div className="mx-auto flex h-8 w-14 items-center justify-center rounded-full border border-slate-700/60 bg-glass">
+          <div className="h-2 w-1 rounded bg-slate-300 animate-bounce" />
         </div>
-        <span className="mt-2 block text-xs">Scroll</span>
+        <span className="mt-2 block text-xs uppercase tracking-[0.16em]">Scroll</span>
       </div>
     </section>
   );

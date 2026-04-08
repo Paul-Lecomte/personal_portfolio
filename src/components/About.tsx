@@ -4,53 +4,54 @@ import { useScrollReveal } from '../utils/motion';
 const About: React.FC = () => {
   const { ref, visible } = useScrollReveal({ threshold: 0.15 });
   return (
-    <section id="about" className="py-16 md:py-24">
+    <section id="about" className="border-b border-slate-800/70 py-16 md:py-20">
       <div
         ref={ref as unknown as React.RefObject<HTMLDivElement>}
-        className={`mx-auto max-w-4xl px-4 ${visible ? 'reveal-visible' : 'reveal-init'}`}
+        className={`section-shell ${visible ? 'reveal-visible' : 'reveal-init'}`}
       >
-        <h2 className="text-3xl font-semibold tracking-tight text-slate-50 md:text-4xl">About</h2>
-        <p className="mt-4 text-slate-300">
-          I’m a final-year Computer Science student with a strong focus on backend and full‑stack
-          development. Most of my work lives in Rust, C++, and TypeScript — building routing
-          backends over GTFS data, messaging APIs, and web frontends with React.
+        <h2 className="section-kicker">Approach</h2>
+        <p className="section-title max-w-4xl sm:text-4xl">How I approach full-stack engineering.</p>
+        <p className="section-copy max-w-4xl">
+          I care about the full product lifecycle: from initial discovery and interface design to
+          API implementation, deployment, and iteration. Good software should feel simple while
+          being technically solid under the hood.
         </p>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <div className="space-y-3 text-sm text-slate-300">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-              Core strengths
+        <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <div className="card-surface border-l-2 border-l-accent-300 text-sm text-slate-300">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-200">
+              How I work
             </h4>
-            <ul className="space-y-2">
+            <ul className="mt-3 list-disc space-y-3 pl-5 leading-relaxed">
               <li>
-                <span className="font-medium text-slate-100">Backend & systems engineering</span> —
-                designing APIs, routing engines and data models that are easy to reason about and
-                extend.
+                <span className="font-medium text-slate-100">Product-first execution</span> — I keep
+                business goals visible while making technical decisions.
               </li>
               <li>
-                <span className="font-medium text-slate-100">Algorithms & data</span> — shortest-path
-                algorithms like Dijkstra, graph modeling and working with GTFS and other
-                real‑world datasets.
+                <span className="font-medium text-slate-100">Fast feedback loops</span> — I prototype,
+                test early, and iterate with real usage signals.
               </li>
               <li>
-                <span className="font-medium text-slate-100">Full‑stack delivery</span> — wiring
-                backends to frontends in React/Next.js, with basic DevOps (Docker, GitHub Actions,
-                Linux) to ship and iterate.
+                <span className="font-medium text-slate-100">Clean architecture boundaries</span> — I
+                keep UI, services, and data layers clear for long-term maintainability.
               </li>
             </ul>
           </div>
-          <div className="space-y-3 text-sm text-slate-300">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-              What I like working on
+          <div className="card-surface text-sm text-slate-300">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-200">
+              What I am looking for
             </h4>
-            <p>
-              I’m particularly interested in problems that combine algorithms, real-world data and
-              reliability constraints: routing, scheduling, messaging and data pipelines.
-            </p>
-            <p>
-              I enjoy small, focused codebases with good tests, clear boundaries and a strong code
-              review culture.
-            </p>
+            <ul className="mt-3 list-disc space-y-3 pl-5 leading-relaxed">
+              <li>
+                Full-stack roles where I can own meaningful product slices from UI to backend.
+              </li>
+              <li>
+                Teams building modern web products with strong engineering standards and mentorship.
+              </li>
+              <li>
+                Environments that value measurable user impact, readability, and continuous learning.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

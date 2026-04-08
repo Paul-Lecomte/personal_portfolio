@@ -37,7 +37,19 @@ const CaseStudies: React.FC = () => {
               </header>
 
               <div className="mt-5 space-y-6 text-sm text-slate-300">
-                {(['problem', 'approach', 'architecture', 'impact'] as const).map((key) => {
+                {(
+                  [
+                    'problem',
+                    'constraints',
+                    'systemDesign',
+                    'architectureDiagram',
+                    'techStack',
+                    'performance',
+                    'tradeoffs',
+                    'outcome',
+                    'lessons',
+                  ] as const
+                ).map((key) => {
                   const section = project.caseStudy[key];
                   return (
                     <section key={key}>

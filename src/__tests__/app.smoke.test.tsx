@@ -15,8 +15,11 @@ describe('App', () => {
         <App />
       </HelmetProvider>
     );
-    expect(await screen.findByText(/Backend & Full/i)).toBeInTheDocument();
-    expect(await screen.findByText(/Featured Projects/i)).toBeInTheDocument();
+    const heroTags = await screen.findAllByText(/Full-stack software engineer/i);
+    expect(heroTags.length).toBeGreaterThanOrEqual(1);
+    expect(await screen.findByText(/Full-stack case studies with real constraints/i)).toBeInTheDocument();
+    const projectsLabels = await screen.findAllByText(/Projects/i);
+    expect(projectsLabels.length).toBeGreaterThanOrEqual(1);
     const contacts = await screen.findAllByText(/Contact/i);
     expect(contacts.length).toBeGreaterThanOrEqual(1);
   });

@@ -3,6 +3,18 @@ import { useParams, Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { SeoHelmet, breadcrumbForProject, softwareSourceCode } from '../seo/helmet';
 
+const sectionKeys = [
+  'problem',
+  'constraints',
+  'systemDesign',
+  'architectureDiagram',
+  'techStack',
+  'performance',
+  'tradeoffs',
+  'outcome',
+  'lessons',
+] as const;
+
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -10,13 +22,13 @@ const ProjectDetail: React.FC = () => {
 
   if (!project) {
     return (
-      <main className="min-h-screen bg-slate-950/80 text-slate-100 relative z-10">
-        <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-start justify-center px-4">
+      <main className="relative z-10 min-h-screen text-slate-100">
+        <div className="section-shell flex min-h-screen max-w-5xl flex-col items-start justify-center">
           <SeoHelmet title="Project not found — Paul Lecomte" description="The requested project could not be found." noindex path={`/project/${id ?? ''}`} />
           <p className="text-sm text-slate-400">Project not found.</p>
           <Link
             to="/?section=projects#projects"
-            className="mt-4 inline-flex items-center rounded-full border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 hover:border-brand-soft hover:text-brand-soft"
+            className="btn-secondary mt-4"
           >
             ← Back to portfolio
           </Link>
@@ -28,18 +40,18 @@ const ProjectDetail: React.FC = () => {
   const desc = project.summary || project.tagline;
 
   return (
-    <main className="min-h-screen bg-slate-950/80 text-slate-100 relative z-10">
+    <main className="relative z-10 min-h-screen text-slate-100">
       <SeoHelmet
         title={`${project.title} — Case Study — Paul Lecomte`}
         description={desc}
         path={`/project/${project.id}`}
         jsonLd={[breadcrumbForProject(project.id, project.title), softwareSourceCode(project)]}
       />
-      <div className="mx-auto max-w-4xl px-4 py-8">
-        <div className="flex items-center justify-between gap-4">
+      <div className="section-shell max-w-7xl py-8 md:py-10">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             to="/?section=projects#projects"
-            className="inline-flex items-center text-xs font-medium text-slate-400 hover:text-brand-soft"
+            className="btn-link text-xs uppercase tracking-[0.14em]"
           >
             ← Back to portfolio
           </Link>
@@ -47,7 +59,7 @@ const ProjectDetail: React.FC = () => {
             href={project.githubUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center text-xs font-medium text-slate-300 hover:text-slate-50"
+            className="btn-secondary px-4 py-2 text-xs uppercase tracking-[0.14em]"
             aria-label={`Open GitHub repository for ${project.title} in a new tab`}
           >
             View on GitHub
@@ -57,32 +69,48 @@ const ProjectDetail: React.FC = () => {
           </a>
         </div>
 
-        <header className="mt-6 space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-soft">
+        <header className="mt-6 rounded-3xl border border-slate-800/70 bg-ink-900/55 p-6 sm:p-8">
+          <p className="section-kicker">
             Case Study
           </p>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
+          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-slate-50 sm:text-4xl lg:text-5xl">
             {project.title}
           </h1>
-          <p className="text-sm text-slate-300">{project.tagline}</p>
-          <div className="mt-2 flex flex-wrap gap-1.5">
+          <p className="mt-3 max-w-3xl text-base text-slate-300">{project.tagline}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
             {project.tech.map((t) => (
-              <span
-                key={t}
-                className="rounded-full bg-slate-800/80 px-2.5 py-1 text-xs text-slate-200"
-              >
+              <span key={t} className="badge-soft border-brand-400/30 bg-brand-900/20 text-brand-100">
                 {t}
               </span>
             ))}
           </div>
         </header>
 
-        <section className="mt-8 space-y-6 text-sm text-slate-300">
-          {(['problem', 'approach', 'architecture', 'impact'] as const).map((key) => {
+        <div className="mt-8 grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+          <aside className="card-surface lg:sticky lg:top-24">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-200">Contents</p>
+            <nav className="mt-4 space-y-2" aria-label="Case study section navigation">
+              {sectionKeys.map((key, index) => {
+                const section = project.caseStudy[key];
+                return (
+                  <a
+                    key={key}
+                    href={`#${key}`}
+                    className="block rounded-xl px-3 py-2 text-xs font-medium uppercase tracking-[0.14em] text-slate-300 transition hover:bg-slate-800/60 hover:text-slate-100"
+                  >
+                    {index + 1}. {section.title}
+                  </a>
+                );
+              })}
+            </nav>
+          </aside>
+
+          <section className="space-y-4 text-sm text-slate-300 sm:text-base">
+            {sectionKeys.map((key) => {
             const section = project.caseStudy[key];
             return (
-              <article key={key} className="space-y-2">
-                <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+              <article id={key} key={key} className="card-surface scroll-mt-24 space-y-3 leading-relaxed">
+                <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-200">
                   {section.title}
                 </h2>
                 <div className="space-y-2">
@@ -93,7 +121,8 @@ const ProjectDetail: React.FC = () => {
               </article>
             );
           })}
-        </section>
+          </section>
+        </div>
       </div>
     </main>
   );

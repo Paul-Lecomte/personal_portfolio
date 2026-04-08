@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const SITE_NAME = 'Paul Lecomte';
-export const DEFAULT_TITLE = 'Paul Lecomte — Portfolio';
+export const DEFAULT_TITLE = 'Paul Lecomte — Full-Stack Software Engineer';
 export const DEFAULT_DESC =
-  'Final-year CS student focused on backend and full‑stack engineering (Rust, C++, TypeScript). Explore projects, case studies and contact info.';
+  'Full-stack software engineer building modern web applications from interface to infrastructure. Explore projects, architecture decisions, and product-focused case studies.';
 
 const SITE_URL = (import.meta as any).env?.VITE_SITE_URL || '';
 const BASE_URL = SITE_URL.endsWith('/') ? SITE_URL : SITE_URL ? SITE_URL + '/' : '';
@@ -79,7 +79,7 @@ export function personJsonLd() {
     '@type': 'Person',
     name: 'Paul Lecomte',
     url: BASE_URL || undefined,
-    jobTitle: 'Computer Science student / Software Engineer',
+    jobTitle: 'Full-stack software engineer',
     sameAs: [
       'https://github.com/Paul-Lecomte',
       'https://linkedin.com/in/paul-lecomte-539b46216',
