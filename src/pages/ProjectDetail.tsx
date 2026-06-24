@@ -70,9 +70,9 @@ const ProjectDetail: FC = () => {
               >
                 Experience
               </Link>
-              <button className="bg-primary-container text-on-primary-container px-4 py-2 font-label-mono text-label-mono hover:opacity-90 active:scale-95 transition-all">
+              <a href="/#contact" className="bg-primary-container text-on-primary-container px-4 py-2 font-label-mono text-label-mono hover:opacity-90 active:scale-95 transition-all cursor-pointer">
                 Hire Me
-              </button>
+              </a>
             </div>
             <Link
               to="/"

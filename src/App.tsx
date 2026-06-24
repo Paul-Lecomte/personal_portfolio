@@ -121,9 +121,9 @@ const MainPage: FC = () => {
             ))}
           </div>
 
-          <button className="bg-primary-container text-on-primary-container px-6 py-2 font-label-mono text-label-mono hover:opacity-90 transition-all active:opacity-80">
+          <a href="/#contact" className="bg-primary-container text-on-primary-container px-6 py-2 font-label-mono text-label-mono hover:opacity-90 transition-all active:opacity-80 cursor-pointer">
             Hire Me
-          </button>
+          </a>
 
           {/* Mobile hamburger */}
           <button
