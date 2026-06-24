@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FC } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Suspense, lazy } from 'react';
@@ -36,7 +36,7 @@ function useRevealOnScroll() {
   }, []);
 }
 
-const MainPage: React.FC = () => {
+const MainPage: FC = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
@@ -784,7 +784,7 @@ const MainPage: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
+const App: FC = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={null}>

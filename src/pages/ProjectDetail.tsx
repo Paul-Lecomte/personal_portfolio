@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { projects } from '../data/projects';
 
-const ProjectDetail: React.FC = () => {
+const ProjectDetail: FC = () => {
   const { id } = useParams<{ id: string }>();
   const project = projects.find((p) => p.id === id);
 
