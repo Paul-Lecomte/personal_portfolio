@@ -1,22 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <title>Paul Lecomte — Portfolio</title>
+    <title>Paul Lecomte — Master of Science in Computer Science</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Baseline: minimal head; SEO/OG/Twitter/JSON-LD sont gérés par react-helmet-async -->
-    <meta name="theme-color" content="#0f1724" />
+    <meta name="theme-color" content="#101415" />
+    <meta name="description" content="Full-stack software engineer. MSc Computer Science. I design and ship modern products from frontend UX to backend reliability." />
+
+    <!-- Fonts preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Favicons and manifest -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Material Symbols + Devicon for icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   </head>
-  <body class="bg-slate-950 text-slate-100">
+  <body class="bg-surface text-on-surface font-body-md antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
