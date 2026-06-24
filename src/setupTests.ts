@@ -18,6 +18,16 @@ if (!window.matchMedia) {
   });
 }
 
+if (typeof IntersectionObserver === 'undefined') {
+  // @ts-expect-error jsdom shim
+  global.IntersectionObserver = class {
+    constructor() {}
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}
+
 if (!HTMLCanvasElement.prototype.getContext) {
   // @ts-expect-error jsdom shim
   HTMLCanvasElement.prototype.getContext = () => {
